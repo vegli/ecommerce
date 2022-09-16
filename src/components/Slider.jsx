@@ -33,8 +33,9 @@ const Arrow = styled.div`
 
 const Wrapper = styled.div`
     height: 100%;
-    display: flex; // da nam slajdovi budu horiznontalni
-    transform: translateX(0vw);
+    display: flex; // da nam slajdovi budu horiznontalni;
+    transition: all 1.5s ease;
+    transform: translateX(${props=>props.slideIndex * -100}vw);
 `
 
 const Slide = styled.div`
@@ -85,18 +86,24 @@ const Slider = () => {
 const [slideIndex, setSlideIndex] = useState(0);
 // kad kliknem desnu strelicu slideIndex = 1
 // kad kliknem levu strelicu slideIndex = 3 jer ide od poslednjeg
-// test2
+
 
 const handleClick = (direction) => {
     // 0 -100vw -200vw -300vw za slajdove
+    // to smo uveli u wrapper kao prop dole, a onda mnozilli gore u wrapper componentu
+    if (direction==="left") {
+        setSlideIndex(slideIndex > 0 ? slideIndex-1 : 2) 
+    } else {
+        setSlideIndex(slideIndex < 2 ? slideIndex+1 : 0)
+    }
 };
 
   return (
     <Container>
         <Arrow direction = "left" onClick={()=>handleClick("left")}>
             <ArrowLeftOutlined/>
-        </Arrow>
-        <Wrapper>
+        </Arrow> 
+        <Wrapper slideIndex={slideIndex}> 
             {sliderItems.map(item => ( 
             <Slide bg={item.bg}>
             <ImageContainer> 
