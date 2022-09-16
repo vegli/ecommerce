@@ -85,7 +85,7 @@ const Slider = () => {
 const [slideIndex, setSlideIndex] = useState(0);
 // kad kliknem desnu strelicu slideIndex = 1
 // kad kliknem levu strelicu slideIndex = 3 jer ide od poslednjeg
-// nesto 
+// test2
 
 const handleClick = (direction) => {
     // 0 -100vw -200vw -300vw za slajdove
