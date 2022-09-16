@@ -48,7 +48,7 @@ export const popularProducts = [
     },
     {
         id:2,
-        img: "https://media.istockphoto.com/photos/gaming-mouse-with-led-lights-picture-id1306131972?s=612x612",
+        img: "https://media.istockphoto.com/photos/gamer-work-space-concept-top-view-a-gaming-gear-mouse-keyboard-in-picture-id1373109753?k=20&m=1373109753&s=612x612&w=0&h=Tm1q_JRMRrD8NYwF8Nl8x5VeW90iXf8J_xO4icUPE1k=",
     },
     {
         id:3,
