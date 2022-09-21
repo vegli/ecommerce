@@ -6,6 +6,10 @@ import Announcement from '../components/Announcement'
 import Footer from '../components/Footer'
 import Navbar from '../components/Navbar'
 import Newsletter from '../components/Newsletter'
+import { useLocation } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { publicRequest } from '../requestMethods'
+
 
 const Containter = styled.div`
     
@@ -109,13 +113,29 @@ const Button = styled.button`
 `
 
 const Product = () => {
+    const location = useLocation();
+    const id = location.pathname.split("/")[2];
+
+    const [product,setProduct] = useState({})
+
+    useEffect(()=>{
+        const getProduct = async () => {
+            try{
+                const res = await publicRequest.get("/products/find/"+id)
+                setProduct(res.data);
+            }catch{}
+        };
+        getProduct();
+    },[id]);
+
+
   return (
     <Containter>
         <Navbar/>
         <Announcement/>
         <Wrapper>
             <ImageContainer>
-                <Image src = "https://media.istockphoto.com/photos/wired-computer-mouse-with-case-illumination-picture-id1344275248?k=20&m=1344275248&s=612x612&w=0&h=Bglpya6_hW5L5cNbuE3bErUrmo__kIlXKF0J_tJmRIg="/>
+                <Image src = {product.img} />
             </ImageContainer>
             <InfoContainer>
                 <Title> Razer Deathadder 2022</Title>

@@ -1,4 +1,6 @@
 import React from 'react'
+import { useState } from 'react'
+import { useLocation } from 'react-router-dom'
 import styled from 'styled-components'
 import Announcement from '../components/Announcement'
 import Footer from '../components/Footer'
@@ -38,34 +40,62 @@ const Select = styled.select`
     margin-right: 20px;
 `
 
+
+
 const ProductList = () => {
+    const location = useLocation();
+    const cat = location.pathname.split("/")[2];
+    const [filters,setFilters] = useState({});
+    const [sort, setSort] = useState("Newest");
+
+    const handleFilters = (e) => {
+        const value = e.target.value;
+        setFilters({
+            ...filters,
+            [e.target.name]: value,
+        });
+    };
+
   return (
     <Container>
         <Announcement/>
         <Navbar/>
-        <Title> KEYBOARDS </Title>
+        <Title> {cat} </Title>
         <FilterContainer>
             <Filter>
                 <FilterText>Filter products: </FilterText>
-                <Select>
-                    <Option disabled selected>
-                        Type
+                <Select name="color" onChange={handleFilters}>
+                    <Option >
+                        Color
                     </Option>
-                        <Option> Keyboards </Option>
-                        <Option> Mouse </Option>
-                        <Option> Mousepad </Option>
+                        <Option> white </Option>
+                        <Option> black </Option>
+                        <Option> green </Option>
+                        <Option> pink </Option>
+                        <Option> gray </Option>
+                        <Option> purple </Option>
+                        <Option> yellow </Option>
+                </Select>
+                <Select name="wire" onChange={handleFilters}>
+                    <Option >
+                        Wiring
+                    </Option>
+                        <Option> Wireless </Option>
+                        <Option> Has wire </Option>
+                        <Option> Bluetooth </Option>
+                        <Option> Other </Option>
                 </Select>
             </Filter>
             <Filter>
                 <FilterText>Sort products: </FilterText>
-                <Select>
-                    <Option selected>Newest</Option>
-                    <Option> Price(asc) </Option>
-                    <Option> Price(desc) </Option>
+                <Select onChange={(e) => setSort(e.target.value)}>
+                    <Option value="newest">Newest</Option>
+                    <Option value="asc"> Price(asc) </Option>
+                    <Option value="desc"> Price(desc) </Option>
                 </Select>
             </Filter>
         </FilterContainer>
-        <Products/>
+        <Products cat={cat} filters={filters} sort={sort}/>
         <Newsletter/>
         <Footer/>
     </Container>

@@ -28,16 +28,19 @@ export const categories = [
         id: 1,
         img: "https://cdn.pixabay.com/photo/2015/03/12/11/22/mouse-670002_960_720.jpg",
         title: "MOUSE",
+        cat:"mouse"
     },
     {
         id: 2,
         img: "https://cdn.pixabay.com/photo/2015/02/03/02/14/keyboard-621830_960_720.jpg",
         title: "KEYBOARD",
+        cat:"keyboard"
     },
     {
         id: 3,
-        img: "https://media.istockphoto.com/photos/light-weight-gaming-mouse-on-gaming-mat-with-led-light-closeup-picture-id1355815994?k=20&m=1355815994&s=612x612&w=0&h=7HtoV-4m5lyjssLJTRl2d2ShO335TPFTLOZtUpsfELc=",
-        title: "MOUSEPAD",
+        img: "https://cdn.pixabay.com/photo/2016/11/29/09/08/headphones-1868612_960_720.jpg",
+        title: "HEADPHONES",
+        cat:"headphones"
     },
 ];
 
