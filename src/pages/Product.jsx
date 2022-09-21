@@ -9,6 +9,8 @@ import Newsletter from '../components/Newsletter'
 import { useLocation } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { publicRequest } from '../requestMethods'
+import { addProduct } from '../redux/cartRedux'
+import {useDispatch} from 'react-redux'
 
 
 const Containter = styled.div`
@@ -115,8 +117,11 @@ const Button = styled.button`
 const Product = () => {
     const location = useLocation();
     const id = location.pathname.split("/")[2];
-
     const [product,setProduct] = useState({})
+    const [quantity, setQuantity] = useState(1);
+    const [color,setColor] = useState("");
+    const [wire,setWire] = useState("");
+    const dispatch = useDispatch();
 
     useEffect(()=>{
         const getProduct = async () => {
@@ -128,6 +133,19 @@ const Product = () => {
         getProduct();
     },[id]);
 
+    const handleQuantity = (type) => {
+        if(type==="dec"){
+            quantity > 1 && setQuantity(quantity-1)
+        } else {
+            setQuantity(quantity+1)
+        }
+    }
+
+    const handleClick = () => {
+        // UPDATE CART - ne zna da je redux operacija ! Moramo da  dishpatchujemo akciju.
+        dispatch(
+        addProduct({...product, quantity, color, wire}));
+    }
 
   return (
     <Containter>
@@ -138,32 +156,32 @@ const Product = () => {
                 <Image src = {product.img} />
             </ImageContainer>
             <InfoContainer>
-                <Title> Razer Deathadder 2022</Title>
-                <Desc>Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi consequuntur cumque id facilis 
-                    voluptatem veritatis. Nulla eius temporibus, nostrum distinctio minus sint et neque ullam delectus, 
-                    nobis, iure aliquam cupiditate.</Desc>
-                <Price>60$</Price>
+                <Title> {product.title} </Title>
+                <Desc>{product.desc}</Desc>
+                <Price>{product.price}$</Price>
                 <FilterContainer>
-                    <FilterMark> 
-                        <FilterTitle> Mark </FilterTitle>
-                        <FilterMarkOption> Logitech</FilterMarkOption>
-                        <FilterMarkOption> Razer </FilterMarkOption>
-                        <FilterMarkOption> HyperX </FilterMarkOption>
-                    </FilterMark>
+                    <Filter> 
+                        <FilterTitle> Wire </FilterTitle>
+                        <FilterMark onChange={(e) => setWire(e.target.value)}>
+                            {product.wire?.map((w)=>(
+                                <FilterMarkOption key={w}>{w}</FilterMarkOption>
+                            ))}
+                        </FilterMark>
+                    </Filter>
                     <Filter>
                         <FilterTitle> Color </FilterTitle>
-                        <FilterColor color = "black"/>
-                        <FilterColor color = "blue"/>
-                        <FilterColor color = "gray"/>
+                        {product.color?.map((c) => (
+                            <FilterColor color={c} key={c} onClick={()=>setColor(c)}/>
+                        ))}
                     </Filter>
                 </FilterContainer>
                 <AddContainer> 
                     <AmountCointainer>
-                        <Remove/>
-                        <Amount>1</Amount>
-                        <Add/>
+                        <Remove onClick={()=>handleQuantity("dec")}/>
+                        <Amount>{quantity}</Amount>
+                        <Add onClick={()=>handleQuantity("inc")}/>
                     </AmountCointainer>
-                    <Button> ADD TO CART </Button>
+                    <Button onClick={handleClick}> ADD TO CART </Button>
                 </AddContainer>
             </InfoContainer>
         </Wrapper>
